@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incident Portfolio</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f4f8;
+    color: #1a2332;
+    min-height: 100vh;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1a2d5a 0%, #0f4c75 100%);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 30%;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .header-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.25rem;
+  }
+
+  header p {
+    font-size: 0.95rem;
+    opacity: 0.75;
+    margin-bottom: 1.5rem;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 0.6rem 1.1rem;
+    text-align: center;
+    min-width: 90px;
+  }
+
+  .stat-num {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  .main {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 3rem;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .toolbar input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid #d0d7e2;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    background: #f8fafc;
+    color: #1a2332;
+    transition: border 0.2s;
+  }
+
+  .toolbar input[type="text"]:focus {
+    border-color: #0f4c75;
+    background: #fff;
+  }
+
+  .toolbar select {
+    padding: 0.5rem 0.8rem;
+    border: 1px solid #d0d7e2;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    background: #f8fafc;
+    color: #1a2332;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .btn {
+    padding: 0.5rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+  }
+
+  .btn-primary {
+    background: #1a2d5a;
+    color: #fff;
+  }
+
+  .btn-primary:hover { background: #0f4c75; }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid #1a2d5a;
+    color: #1a2d5a;
+  }
+
+  .btn-outline:hover { background: #f0f4f8; }
+
+  .btn-danger {
+    background: transparent;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.78rem;
+  }
+
+  .btn-danger:hover { background: #fdf2f0; }
+
+  .count-label {
+    font-size: 0.85rem;
+    color: #6b7c93;
+    margin-left: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    font-size: 0.875rem;
+  }
+
+  thead tr {
+    background: #1a2d5a;
+    color: #fff;
+  }
+
+  thead th {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  thead th:hover { background: #0f4c75; }
+
+  thead th .sort-icon {
+    opacity: 0.5;
+    margin-left: 4px;
+    font-size: 0.7rem;
+  }
+
+  thead th.sorted .sort-icon { opacity: 1; }
+
+  tbody tr {
+    border-bottom: 1px solid #eef1f6;
+    transition: background 0.1s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #f7f9fc; }
+
+  td {
+    padding: 0.85rem 1rem;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  td.num {
+    font-weight: 700;
+    color: #0f4c75;
+    font-size: 0.8rem;
+    width: 36px;
+    text-align: center;
+  }
+
+  td.loc {
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: #2c3e50;
+  }
+
+  td.device { white-space: nowrap; font-size: 0.85rem; }
+
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border-radius: 5px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .badge-bug { background: #fde8e8; color: #a93226; }
+  .badge-perf { background: #fef9e7; color: #9a7d0a; }
+  .badge-conn { background: #e8f4fd; color: #1a5276; }
+  .badge-route { background: #e8f8f5; color: #1a7a5a; }
+  .badge-change { background: #f4ecf7; color: #6c3483; }
+  .badge-upgrade { background: #fdf2e9; color: #935116; }
+  .badge-design { background: #eaf2fb; color: #1f618d; }
+  .badge-auth { background: #f9ebea; color: #922b21; }
+  .badge-ioc { background: #f0f3f4; color: #2e4057; }
+  .badge-default { background: #eaecee; color: #515a6e; }
+
+  td.desc { max-width: 320px; color: #2c3e50; }
+  td.prev { max-width: 280px; color: #2c3e50; }
+  td.actions { white-space: nowrap; }
+
+  .expand-btn {
+    color: #0f4c75;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+  }
+
+  .desc-text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .desc-text.expanded { display: block; -webkit-line-clamp: unset; }
+
+  .no-results {
+    text-align: center;
+    padding: 3rem;
+    color: #8897a8;
+    font-size: 0.95rem;
+  }
+
+  /* Modal */
+  .modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,20,40,0.55);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .modal-bg.open { display: flex; }
+
+  .modal {
+    background: #fff;
+    border-radius: 14px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+
+  .modal h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1a2d5a;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eef1f6;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .form-group.full { grid-column: 1 / -1; }
+
+  .form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.55rem 0.8rem;
+    border: 1px solid #d0d7e2;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    color: #1a2332;
+    background: #f8fafc;
+    outline: none;
+    transition: border 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #0f4c75;
+    background: #fff;
+  }
+
+  .form-group textarea { resize: vertical; min-height: 80px; }
+
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eef1f6;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: #1a2d5a;
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    z-index: 2000;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .chart-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .chart-card h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #6b7c93;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.85rem;
+  }
+
+  .mini-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .mini-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+  }
+
+  .mini-bar-label { width: 85px; color: #4a5568; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mini-bar-track { flex: 1; background: #eef1f6; border-radius: 4px; height: 8px; }
+  .mini-bar-fill { height: 8px; border-radius: 4px; background: #1a2d5a; }
+  .mini-bar-val { width: 20px; text-align: right; color: #6b7c93; font-weight: 600; }
+
+  @media (max-width: 700px) {
+    .chart-row { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    td.desc, td.prev { max-width: 180px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>&#128274; Incident Portfolio</h1>
+    <p>Network & Security Incident Registry &mdash; Managed &amp; Resolved</p>
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-num" id="s-total">0</div><div class="stat-label">Total</div></div>
+      <div class="stat"><div class="stat-num" id="s-fw">0</div><div class="stat-label">Firewall</div></div>
+      <div class="stat"><div class="stat-num" id="s-loc">0</div><div class="stat-label">Locations</div></div>
+      <div class="stat"><div class="stat-num" id="s-bug">0</div><div class="stat-label">Bug Hits</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+  <div class="chart-row">
+    <div class="chart-card">
+      <h3>By device type</h3>
+      <div class="mini-bar" id="chart-device"></div>
+    </div>
+    <div class="chart-card">
+      <h3>By incident category</h3>
+      <div class="mini-bar" id="chart-cat"></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="&#128269; Search incidents..." oninput="renderTable()">
+    <select id="f-loc" onchange="renderTable()"><option value="">All Locations</option></select>
+    <select id="f-dev" onchange="renderTable()"><option value="">All Devices</option></select>
+    <select id="f-cat" onchange="renderTable()"><option value="">All Categories</option></select>
+    <button class="btn btn-primary" onclick="openModal()">+ Add Incident</button>
+    <button class="btn btn-outline" onclick="exportCSV()">Export CSV</button>
+    <span class="count-label" id="count-label"></span>
+  </div>
+
+  <table id="inc-table">
+    <thead>
+      <tr>
+        <th onclick="sortBy('id')">#<span class="sort-icon">&#8597;</span></th>
+        <th onclick="sortBy('location')">Location<span class="sort-icon">&#8597;</span></th>
+        <th onclick="sortBy('device')">Device<span class="sort-icon">&#8597;</span></th>
+        <th onclick="sortBy('category')">Category<span class="sort-icon">&#8597;</span></th>
+        <th>Incident Description</th>
+        <th>Preventive Action</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+  </table>
+  <div class="no-results" id="no-results" style="display:none;">No incidents match your filters.</div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-bg" id="modal-bg" onclick="handleBgClick(event)">
+  <div class="modal">
+    <h2 id="modal-title">Add New Incident</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" id="f-location" placeholder="e.g. RBL, GBL, GITC">
+      </div>
+      <div class="form-group">
+        <label>Device</label>
+        <input type="text" id="f-device" placeholder="e.g. Firewall, IPS, Router">
+      </div>
+      <div class="form-group">
+        <label>Incident Category</label>
+        <input type="text" id="f-category" placeholder="e.g. Bug hit, Performance">
+      </div>
+      <div class="form-group">
+        <label>Date (optional)</label>
+        <input type="text" id="f-date" placeholder="e.g. 23.04.2025">
+      </div>
+      <div class="form-group full">
+        <label>Incident Description</label>
+        <textarea id="f-desc" placeholder="Describe what happened, timeline, impact..."></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Root Cause</label>
+        <textarea id="f-root" placeholder="Root cause analysis..."></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Preventive Action</label>
+        <textarea id="f-prev" placeholder="Steps taken to prevent recurrence..."></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Implementation / CRQ</label>
+        <input type="text" id="f-crq" placeholder="e.g. CRQ000000009684">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveIncident()">Save Incident</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = 'incident_portfolio_v1';
+
+const SEED = [
+  {id:1,location:'RBL',device:'Firewall',category:'Bug hit',date:'23.04.2025',description:'Request Rate Fluctuations observed by applications working from Rabale Data Center. A Clean-up activity was taken up by CISCO onsite team in RBL-Core ASA (Adaptive Security Appliance) Firewall between 23.04.2025 11:00 PM to 24.04.2025 05:00 AM to delete all the zero hit rules from the firewall. During the Rule deletion Activity both Primary and Secondary firewall crashed.',rootCause:'CISCO Team analyzed the configuration and core dump files and identified that a bug caused the system to mishandle internal memory to manage the addition and deletion of ACL Entry. Both Primary and Secondary firewall crashed since the command was executed. Firewall memory leak. A new defect CSCwo91748 has been filed with CISCO team.',preventive:'Bug fix pending from CISCO. Defect CSCwo91748 filed.',crq:''},
+  {id:2,location:'GBL/RBL',device:'IPS',category:'Performance',date:'08.09.2023',description:'Slowness in traffic was observed for applications running from Rabale DC due to malfunctioning of the core IPS in the primary path.',rootCause:'Core IPS malfunctioned in primary path causing traffic slowness.',preventive:'IPS capacity augmented by adding 2 additional IPS boxes, making throughput from 40 Gbps to 80 Gbps in Core segment. TAC recommended DSRI and application override workarounds for voluminous AD and DNS traffic.',crq:'CRQ000000009684'},
+  {id:3,location:'GBL/RBL',device:'SIFY ISP',category:'Routing',date:'',description:'Alert raised by ROC Team that degradation observed in login count of YONO at 8:21 AM. YONO and INB applications were not working only when end-user was on Jio networks. Sify ISP was observed preferring NIXI as best path. Sify ISP was immediately instructed to stop the advertisement of SBI prefixes towards Jio at 9:36 AM. Traffic restored at 9:40 AM.',rootCause:'Sify ISP preferring NIXI as best path causing routing issues for Jio network users.',preventive:'An additional 10G internet link of Jio has been commissioned at each of the Data Centres – Rabale and Gachibowli to avoid future occurrences of such issues from Jio users.',crq:''},
+  {id:4,location:'RBL',device:'Switch Interface',category:'Connectivity',date:'',description:'Applications like YONO, INB hosted at Rabale DC reported facing communication issues towards Core Banking Solution hosted at GITC DC. Two intranet interconnect switch interfaces at Rabale DC were flapping. The unstable interfaces were bounced (Shut-Unshut). Issue resolved by isolating one of the CBS App servers. Issue resurfaced and faulty line card was replaced through RMA process.',rootCause:'Faulty line card on intranet interconnect switch at Rabale DC caused interface flapping.',preventive:'Faulty line card was replaced through RMA process.',crq:''},
+  {id:5,location:'GBL',device:'NAC Server',category:'Authentication',date:'',description:'Some desktops were not authenticated by NAC Server at 08:30 AM and only MAB authentication requests were observed. Switch was sending dot1x requests to NAC server but only MAB requests observed. HPE TAC case raised (ID: 5382307457). Decided to enable the Rabale DC cluster at 2:20 PM. Endpoints and desktops started getting authenticated successfully.',rootCause:'NAC server issue causing dot1x authentication failure; only MAB requests processed.',preventive:'All DR NAC servers rejoined DR AD servers. Authentication source config refreshed. All services handling NAC and AD communication restarted. Scheduled log checks on logging server.',crq:''},
+  {id:6,location:'GBL',device:'Firewall',category:'Bug hit',date:'15.03.2024',description:"At Gachibowli Core Firewall, the logrcvr process crashed due to a bug (PAN-239367). During the process of writing the coredump to disk, the disk was fully consumed, causing the firewall to failover. The failover caused YONO traffic to drop till sessions got re-established through secondary active firewall. UPI application was also impacted. Disk clean-up was done and firewall was switched back to primary.",rootCause:"The 'logrcvr' process crashed due to a memory leak. Previously generated coredump files were much larger than disk capacity. Incomplete coredump files accumulated without deletion. On March 6th, the process crashed again and the root partition was fully consumed causing failover.",preventive:'Palo Alto recommended upgrade to version 10.2.8 where bug PAN-239367 is fixed. Upgrade completed on 15.03.2024. Cross-connect from core firewall to Super Spine planned to resolve multipathing issues.',crq:''},
+  {id:7,location:'RBL',device:'Firewall',category:'Bug hit',date:'15.03.2024',description:'Secondary core firewall (OEM Cisco) at Rabale DC got rebooted at 14:16. Applications were running from Primary firewall. At 14:35, primary firewall also got rebooted. This led to unavailability of applications hosted at Rabale DC. Applications were advised to move to DR at 14:46 PM. Secondary Firewall came up at 16:03 and all services up at 16:15 Hrs. Primary Firewall came up at 16:40 hours.',rootCause:'Bug in firewall caused both primary and secondary Cisco firewalls to reboot.',preventive:'Activity on the core firewall reduced to the minimum. Commands which triggered the bug restricted temporarily through TACACS on 15.03.2024 until bug fix is in place.',crq:''},
+  {id:8,location:'GBL/GITC',device:'Router',category:'Connectivity',date:'',description:'Multiple devices at Rabale DC and GITC DC went unreachable (32 nos.) comprising DDoS appliances, Proxy servers, WAN Routers, IP switches, ITFO DC routers and TACACS servers. ITFO applications and SMS impacted. Internet Banking login impacted due to OTP not delivered. Office365 impacted due to dependence on proxy. Impact duration was 31 mins from 12:27 to 12:58.',rootCause:'Large IOC IP object size caused internal Database of the Fortinet firewall to crash, losing connectivity to downstream devices.',preventive:'IOC blocking policies bifurcated based on number of objects. Firewall rule review initiated; expired and unused rules to be removed. IOC blocking to be streamlined using external threat feed connector.',crq:''},
+  {id:9,location:'EDR',device:'EDR',category:'Design',date:'',description:'Multiple devices at Rabale DC and GITC DC went unreachable (32 nos.) – DDoS appliances, Proxy servers, WAN Routers, IP switches, ITFO DC routers and TACACS servers. Traffic processing still ongoing through DDoS devices. ITFO applications and SMS impacted. Internet Banking and Office365 impacted. Impact duration 31 mins.',rootCause:'Design finetuning issue with EDR causing mass device unreachability.',preventive:'Plan of Action for Cloud Landing Zone: Existing DC – traffic from endpoints to be routed to third-party segment bypassing core segment. New DC – a dedicated cloud landing zone proposed.',crq:''},
+  {id:10,location:'RBL',device:'Firewall',category:'Performance',date:'',description:'Latency observed by internet facing applications running from Rabale DC. Internet Gateway Firewall (Checkpoint) few CPU cores were having High utilization. Some cores peaking at 100%, average value 81%. Failover was done to Site-2 and network latency was back to normal state. CPU utilization remained over 90%. Checkpoint provided an OS patch; configurations finetuned and CPU cores stabilized.',rootCause:'High CPU utilization on Checkpoint Internet Gateway Firewall cores causing latency.',preventive:'Disabled Thread Blocker. Hotfixes delivered (Jumbo Hotfix Take 129, Custom add on fix). Modified CoreXL settings to better match environment behaviour. Allocated 24 cores for IPv6 from earlier 2 cores.',crq:''},
+  {id:11,location:'RBL',device:'Firewall',category:'Change',date:'',description:'During policy push from the management server, the policy packages were erroneously selected to include the Rabale TPC Firewall.',rootCause:'Policy package had two target gateways configured which went unnoticed since the policy package was not in use.',preventive:'Ensured all policy packages have only specific targets (gateways) configured to avoid manual errors in future. Policy package corrected.',crq:''},
+  {id:12,location:'RBL',device:'Firewall',category:'Bug hit',date:'03.04.2023',description:'RBL checkpoint INT FW 4/5 blades went down after policy push. Rabale Internet Gateway Firewall uses Checkpoint MHO (Maestro Hyper Scale Orchestrator) with 5 blades each handling 30 Gbps, scaling to 150 Gbps. On 03.04.2023, policy installation was attempted at 02:14 AM. Policy not fetched across all blades, reattempted at 02:40AM. At 2:53AM 4 out of 5 blades went down.',rootCause:'Policy installation failure caused 4 of 5 firewall blades to go down.',preventive:'Hourly monitoring of firewall blades initiated. Individual Firewall Blades integrated with NMS. 2,261 time-expired policies deleted reducing policy count to 11,969. 1817 unused rules (Zero hits for last 90 days) disabled.',crq:''},
+  {id:13,location:'GBL',device:'Spine Switch',category:'Bug hit',date:'25.02.2023',description:'Multiple applications running from Gachibowli DC hosted in POD-3 (AD, Proxy, UAT-Agri, Murex, ODAC etc.) were facing intermittent connectivity issues causing frequent disconnections. This was due to inconsistency of ARP entries on Spine switch pair of POD-3 of Gachibowli DC. Issue resolved by shutting down one of the redundant paths.',rootCause:'Known Juniper bug (PR1677521): ARP entries aged out but re-learning not happening properly on POD-3 Spine switch pair.',preventive:'OEM Juniper recommended upgrading IOS 18.4R2.S5.4 to latest IOS 21.2R3-S3. Super-Spine switches upgraded on 25.02.2023. Upgrade for 8 Spine Switches scheduled.',crq:''},
+  {id:14,location:'GBL',device:'Load Balancer',category:'Performance',date:'07.01.2023',description:'Applications switched over to GBL DC as part of IBCE on 07.01.2023. AOs started facing slowness and connectivity issues from 09.01.2023. Core Load Balancer was having high CPU utilization. AOs switched back applications to Primary Site (Rabale DC) from 12.01.2023. Critical transactional applications also started facing issues and all AOs were advised to invoke their business continuity plan.',rootCause:'Core Load Balancer high CPU utilization due to current deployment architecture being unable to handle the traffic load.',preventive:'Hardware device replaced on 25.01.2023 but issue not resolved. F5 recommended change in deployment architecture. Revised architecture proposed enabling PVA (Packet Velocity Acceleration) feature.',crq:''},
+  {id:15,location:'RBL',device:'Spine Switch',category:'Upgrade',date:'06.12.2022',description:'Spine switches 5 and 6 at Rabale DC were upgraded to latest IOS to close vulnerabilities and rebooted on 06.12.2022. After reboot, two ports on Spine-5 towards Spine-2 were down, however there was no downtime. OEM support ticket raised and during troubleshooting on 09.12.2022, access to the device was lost and spine switch was isolated, causing traffic issues. Cisco identified as known bug (CSCvh95282). YONO, INB, EIS, PIMS, SBI-Quick, Proxy and Office-365 were affected.',rootCause:'Known Cisco bug (CSCvh95282): switch isolation during troubleshooting after IOS upgrade caused traffic issues.',preventive:'As advised by Cisco, completed activity on 17.12.2022: Enable CLI knob port-channel scale-fanout. CLI knob to enable high-density mode to reinitialize HW table. Switch reloaded after enabling the knob.',crq:''},
+  {id:16,location:'GBL',device:'SIEM Server',category:'Performance',date:'',description:'High response time from CBS was observed by multiple applications – EIS, INB, YONO, EIS. Issue was due to large syslog traffic by SMS-Seva server towards other DCs. Same was resolved by shutting down the server after which syslog communication stopped.',rootCause:'Large syslog traffic from SMS-Seva server towards other DCs caused high CBS response time.',preventive:'SMS-Seva team was advised to check and rectify the syslog configuration for all their servers. Confirmed by SMS-Seva team.',crq:''},
+  {id:17,location:'GBL',device:'Firewall',category:'Unplanned Change',date:'10.10.2022',description:'Users reported accessibility issue for few applications hosted in Meghdoot (CKYC, LLMS, E-Pay, CMP FastPlus, ODAC) running at Gachibowli DC. This happened after an unplanned change was executed by Sify (NOC) engineer on 10.10.2022 during troubleshooting of accessibility issue reported by Meghdoot applications.',rootCause:'Improper analysis before change and communication gap between NOC-1 and NOC-2 teams led to unplanned firewall change affecting Meghdoot applications.',preventive:'More detailed analysis to be done for all migration activity which contains Meghdoot segments. All DC changes must be communicated to all team members, including NOC-1 and NOC-2.',crq:''},
+  {id:18,location:'GITC',device:'Firewall',category:'Bug hit',date:'05.11.2022',description:'GITC DC Core Firewall (Cisco ASA – 10.0.5.2) went unresponsive and was not processing traffic. ATM, YONO, CBS, EIS, DWH and other applications dependent on CBS were affected.',rootCause:'Cisco ASA firewall went unresponsive due to software version issue.',preventive:'OEM recommended to upgrade IOS to version 9.16.3. The upgrade was carried out on 05.11.2022.',crq:'CRQ000000006408'},
+  {id:19,location:'GBL',device:'Firewall',category:'IOC/DB Crash',date:'12.04.2023',description:'On 12.04.2023, the IOC IPs were added to the internet firewall at Gachibowli (Fortinet). Due to the large object size, the internal Database of the firewall crashed. The policies which regulated connectivity between firewall and next hop layer 3 device was not getting properly processed. The firewall lost connectivity towards downstream devices as dynamic routing services were not able to establish sessions. Applications dependent on the internet firewall were unable to function.',rootCause:'Large IOC object size caused internal DB crash on Fortinet firewall, disrupting routing and application connectivity.',preventive:'IOC blocking policies bifurcated based on number of objects. Firewall rule review initiated; expired and unused rules to be removed. IOC blocking to be streamlined using the external threat feed connector.',crq:''},
+  {id:20,location:'GBL',device:'IPS',category:'Performance',date:'01.09.2023',description:'Throughput drop was observed for multiple applications running from Gachibowli DC. Issue was reported at 12:22 PM observing high core response on YONO Mobile & Portal, INB and Yono Lite since 12:03. Traffic processing at Gachibowli Core Firewall was impacted due to intermittent spike in on-chip packet descriptor for Slot-5 Data Plane-0 (s5dp0).',rootCause:'Intermittent spike in on-chip packet descriptor for Slot-5 Data Plane-0 caused IPS throughput drop at Gachibowli DC.',preventive:'TAC analyzed logs & TSF files and recommended workarounds for AD and DNS traffic: Configure DSRI – Disable Server Response Inspection; configure application override functionality if DSRI insufficient. DSRI configured for 5 policies on 1.09.2023.',crq:''}
+];
+
+let incidents = [];
+let sortField = 'id';
+let sortDir = 1;
+let editingId = null;
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      incidents = JSON.parse(raw);
+    } else {
+      incidents = SEED.map(i => ({...i}));
+      saveData();
+    }
+  } catch(e) {
+    incidents = SEED.map(i => ({...i}));
+  }
+}
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(incidents));
+}
+
+function getBadgeClass(cat) {
+  const c = (cat||'').toLowerCase();
+  if (c.includes('bug')) return 'badge-bug';
+  if (c.includes('perform')) return 'badge-perf';
+  if (c.includes('connect')) return 'badge-conn';
+  if (c.includes('rout')) return 'badge-route';
+  if (c.includes('change')) return 'badge-change';
+  if (c.includes('upgrade')) return 'badge-upgrade';
+  if (c.includes('design')) return 'badge-design';
+  if (c.includes('auth')) return 'badge-auth';
+  if (c.includes('ioc')) return 'badge-ioc';
+  return 'badge-default';
+}
+
+function populate() {
+  const locs = [...new Set(incidents.map(i => i.location))].sort();
+  const devs = [...new Set(incidents.map(i => i.device))].sort();
+  const cats = [...new Set(incidents.map(i => i.category))].sort();
+
+  const fl = document.getElementById('f-loc');
+  const fd = document.getElementById('f-dev');
+  const fc = document.getElementById('f-cat');
+  const curL = fl.value, curD = fd.value, curC = fc.value;
+
+  fl.innerHTML = '<option value="">All Locations</option>' + locs.map(l => `<option value="${l}">${l}</option>`).join('');
+  fd.innerHTML = '<option value="">All Devices</option>' + devs.map(d => `<option value="${d}">${d}</option>`).join('');
+  fc.innerHTML = '<option value="">All Categories</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
+
+  fl.value = curL; fd.value = curD; fc.value = curC;
+}
+
+function updateStats(filtered) {
+  document.getElementById('s-total').textContent = incidents.length;
+  document.getElementById('s-fw').textContent = incidents.filter(i => i.device.toLowerCase().includes('firewall')).length;
+  document.getElementById('s-loc').textContent = new Set(incidents.map(i => i.location)).size;
+  document.getElementById('s-bug').textContent = incidents.filter(i => (i.category||'').toLowerCase().includes('bug')).length;
+}
+
+function updateCharts() {
+  const devCount = {};
+  const catCount = {};
+  incidents.forEach(i => {
+    devCount[i.device] = (devCount[i.device]||0)+1;
+    catCount[i.category] = (catCount[i.category]||0)+1;
+  });
+
+  const renderMini = (containerId, countObj) => {
+    const sorted = Object.entries(countObj).sort((a,b) => b[1]-a[1]).slice(0,6);
+    const max = sorted[0]?.[1] || 1;
+    document.getElementById(containerId).innerHTML = sorted.map(([k,v]) =>
+      `<div class="mini-bar-row">
+        <span class="mini-bar-label" title="${k}">${k}</span>
+        <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${Math.round(v/max*100)}%"></div></div>
+        <span class="mini-bar-val">${v}</span>
+      </div>`
+    ).join('');
+  };
+
+  renderMini('chart-device', devCount);
+  renderMini('chart-cat', catCount);
+}
+
+function getFiltered() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const fLoc = document.getElementById('f-loc').value;
+  const fDev = document.getElementById('f-dev').value;
+  const fCat = document.getElementById('f-cat').value;
+
+  return incidents.filter(i => {
+    if (fLoc && i.location !== fLoc) return false;
+    if (fDev && i.device !== fDev) return false;
+    if (fCat && i.category !== fCat) return false;
+    if (q) {
+      const hay = [i.location,i.device,i.category,i.description,i.preventive,i.rootCause,i.crq].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function sortBy(field) {
+  if (sortField === field) sortDir *= -1;
+  else { sortField = field; sortDir = 1; }
+  renderTable();
+}
+
+function renderTable() {
+  const filtered = getFiltered();
+  filtered.sort((a,b) => {
+    let av = a[sortField]||'', bv = b[sortField]||'';
+    if (typeof av === 'number') return (av-bv)*sortDir;
+    return av.localeCompare(bv)*sortDir;
+  });
+
+  document.getElementById('count-label').textContent = `${filtered.length} of ${incidents.length} incidents`;
+  const tbody = document.getElementById('table-body');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    document.getElementById('no-results').style.display = 'block';
+    document.getElementById('inc-table').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('no-results').style.display = 'none';
+  document.getElementById('inc-table').style.display = '';
+
+  tbody.innerHTML = filtered.map(i => `
+    <tr>
+      <td class="num">${i.id}</td>
+      <td class="loc">${i.location}${i.date ? `<br><span style="font-weight:400;font-size:0.75rem;color:#8897a8;">${i.date}</span>` : ''}</td>
+      <td class="device">${i.device}</td>
+      <td><span class="badge ${getBadgeClass(i.category)}">${i.category}</span></td>
+      <td class="desc">
+        <div class="desc-text" id="desc-${i.id}">${escHtml(i.description)}</div>
+        <button class="expand-btn" onclick="toggleExpand('desc-${i.id}', this)">show more</button>
+      </td>
+      <td class="prev">
+        <div class="desc-text" id="prev-${i.id}">${escHtml(i.preventive)}</div>
+        <button class="expand-btn" onclick="toggleExpand('prev-${i.id}', this)">show more</button>
+        ${i.crq ? `<br><span style="font-size:0.72rem;color:#0f4c75;font-weight:600;">${escHtml(i.crq)}</span>` : ''}
+      </td>
+      <td class="actions">
+        <button class="btn btn-outline" style="padding:0.3rem 0.7rem;font-size:0.78rem;" onclick="editIncident(${i.id})">Edit</button>
+        &nbsp;
+        <button class="btn btn-danger" onclick="deleteIncident(${i.id})">Delete</button>
+      </td>
+    </tr>
+  `).join('');
+
+  updateStats();
+}
+
+function escHtml(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+function toggleExpand(id, btn) {
+  const el = document.getElementById(id);
+  const expanded = el.classList.toggle('expanded');
+  btn.textContent = expanded ? 'show less' : 'show more';
+}
+
+function openModal(editId) {
+  editingId = editId || null;
+  document.getElementById('modal-title').textContent = editId ? 'Edit Incident' : 'Add New Incident';
+  if (editId) {
+    const inc = incidents.find(i => i.id === editId);
+    document.getElementById('f-location').value = inc.location||'';
+    document.getElementById('f-device').value = inc.device||'';
+    document.getElementById('f-category').value = inc.category||'';
+    document.getElementById('f-date').value = inc.date||'';
+    document.getElementById('f-desc').value = inc.description||'';
+    document.getElementById('f-root').value = inc.rootCause||'';
+    document.getElementById('f-prev').value = inc.preventive||'';
+    document.getElementById('f-crq').value = inc.crq||'';
+  } else {
+    ['f-location','f-device','f-category','f-date','f-desc','f-root','f-prev','f-crq'].forEach(id => document.getElementById(id).value = '');
+  }
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-bg').classList.remove('open');
+  editingId = null;
+}
+
+function handleBgClick(e) {
+  if (e.target === document.getElementById('modal-bg')) closeModal();
+}
+
+function saveIncident() {
+  const loc = document.getElementById('f-location').value.trim();
+  const dev = document.getElementById('f-device').value.trim();
+  const cat = document.getElementById('f-category').value.trim();
+  if (!loc || !dev || !cat) { showToast('Please fill in Location, Device, and Category.'); return; }
+
+  if (editingId) {
+    const idx = incidents.findIndex(i => i.id === editingId);
+    incidents[idx] = {
+      ...incidents[idx],
+      location: loc, device: dev, category: cat,
+      date: document.getElementById('f-date').value.trim(),
+      description: document.getElementById('f-desc').value.trim(),
+      rootCause: document.getElementById('f-root').value.trim(),
+      preventive: document.getElementById('f-prev').value.trim(),
+      crq: document.getElementById('f-crq').value.trim()
+    };
+    showToast('Incident updated successfully!');
+  } else {
+    const maxId = incidents.reduce((m,i) => Math.max(m, i.id), 0);
+    incidents.push({
+      id: maxId+1,
+      location: loc, device: dev, category: cat,
+      date: document.getElementById('f-date').value.trim(),
+      description: document.getElementById('f-desc').value.trim(),
+      rootCause: document.getElementById('f-root').value.trim(),
+      preventive: document.getElementById('f-prev').value.trim(),
+      crq: document.getElementById('f-crq').value.trim()
+    });
+    showToast('Incident added successfully!');
+  }
+
+  saveData();
+  populate();
+  updateCharts();
+  renderTable();
+  closeModal();
+}
+
+function editIncident(id) { openModal(id); }
+
+function deleteIncident(id) {
+  if (!confirm('Delete this incident? This cannot be undone.')) return;
+  incidents = incidents.filter(i => i.id !== id);
+  saveData();
+  populate();
+  updateCharts();
+  renderTable();
+  showToast('Incident deleted.');
+}
+
+function exportCSV() {
+  const headers = ['ID','Location','Device','Category','Date','Description','Root Cause','Preventive Action','CRQ'];
+  const rows = incidents.map(i => [
+    i.id, i.location, i.device, i.category, i.date||'',
+    i.description, i.rootCause, i.preventive, i.crq
+  ].map(v => `"${(v||'').replace(/"/g,'""')}"`));
+  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'incident_portfolio.csv';
+  a.click();
+  showToast('CSV exported!');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+loadData();
+populate();
+updateCharts();
+renderTable();
+</script>
+</body>
+</html>
